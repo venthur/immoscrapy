@@ -249,7 +249,7 @@ def main():
     parser = argparse.ArgumentParser(
             description='Scrape Immobilienscout24 offers.'
     )
-    args = parser.parse_args()
+    _ = parser.parse_args()
     results = query('de', 'berlin', 'berlin', 'HOUSE_BUY')
     from pprint import pprint as print
     for r in results:
