@@ -23,7 +23,7 @@ setup(
         'Changelog':
             'https://github.com/venthur/immoscrapy/blob/master/CHANGELOG.md',
     },
-    python_requires='>=3.6',
+    python_requires='>=3.7',
     install_requires=[
         'requests',
     ],
