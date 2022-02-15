@@ -24,7 +24,7 @@ REAL_ESTATE_TYPES = {
 
 
 @dataclass
-class HOUSE_BUY:
+class RealEstate:
     id: int
     url: str
     creation: datetime
@@ -35,11 +35,8 @@ class HOUSE_BUY:
     quarter: str
     title: str
 
-    number_of_rooms: int
+    number_of_rooms: float
     living_space: float
-    plot_area: float
-
-    guest_toilet: bool
 
     price: float
     currency: str
@@ -48,79 +45,31 @@ class HOUSE_BUY:
 
 
 @dataclass
-class HOUSE_RENT:
-    id: int
-    url: str
-    creation: datetime
-
-    address: str
-    city: str
-    postcode: str
-    quarter: str
-    title: str
-
-    number_of_rooms: int
-    living_space: float
+class HOUSE_BUY(RealEstate):
     plot_area: float
+    guest_toilet: bool
 
+
+@dataclass
+class HOUSE_RENT(RealEstate):
+    plot_area: float
+    guest_toilet: bool
     built_in_kitchen: bool
-    guest_toilet: bool
-
-    price: float
-    currency: str
-    private_offer: bool
-    floor_plan: bool
 
 
 @dataclass
-class APARTMENT_BUY:
-    id: int
-    url: str
-    creation: datetime
-
-    address: str
-    city: str
-    postcode: str
-    quarter: str
-    title: str
-
-    number_of_rooms: int
-    living_space: float
-
+class APARTMENT_BUY(RealEstate):
     balcony: bool
     built_in_kitchen: bool
     garden: bool
     guest_toilet: bool
 
-    price: float
-    currency: str
-    private_offer: bool
-    floor_plan: bool
-
 
 @dataclass
-class APARTMENT_RENT:
-    id: int
-    url: str
-    creation: datetime
-
-    address: str
-    city: str
-    postcode: str
-    quarter: str
-    title: str
-
-    number_of_rooms: int
-    living_space: float
-
+class APARTMENT_RENT(RealEstate):
     balcony: bool
     built_in_kitchen: bool
     garden: bool
-
-    price: float
-    currency: str
-    private_offer: bool
-    floor_plan: bool
 
 
 def query(country, region=None, city=None, real_estate_type='APARTMENT_RENT'):
@@ -175,7 +124,7 @@ def query(country, region=None, city=None, real_estate_type='APARTMENT_RENT'):
                 elif real_estate_type == 'APARTMENT_RENT':
                     result = parse_apartment_rent(j)
                 results.append(result)
-            except KeyError:
+            except Exception:
                 logger.warning('Unable to parse {j}, skipping.')
     return results
 
