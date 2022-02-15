@@ -1,4 +1,4 @@
-# immoscra.py
+# immoscrapy
 
 Scrape [Immobilienscout24][] data using Python.
 
