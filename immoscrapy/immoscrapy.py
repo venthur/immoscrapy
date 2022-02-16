@@ -94,38 +94,49 @@ def query(country, region=None, city=None, real_estate_type='APARTMENT_RENT'):
     url += '?sorting=2'
 
     logger.info(f'Using URL: {url}')
-    print(f'Using URL: {url}')
 
     response = session.post(url)
-    pages = (response.json()
-             ['searchResponseModel']
-             ['resultlist.resultlist']
-             ['paging']
-             ['numberOfPages'])
+
+    try:
+        pages = (response.json()
+                 ['searchResponseModel']
+                 ['resultlist.resultlist']
+                 ['paging']
+                 ['numberOfPages'])
+    except Exception:
+        logger.warning("Search returned 0 results.")
+        pages = 0
 
     results = []
-    for i in range(pages):
-        logger.debug(f'Scraping page {i}')
-        response = session.post(url + f'&pagenumber={i+1}')
+    for page in range(1, pages+1):
+        logger.debug(f'Scraping page {page}')
+        response = session.post(url + f'&pagenumber={page}')
 
-        for j in (response.json()
-                  ['searchResponseModel']
-                  ['resultlist.resultlist']
-                  ['resultlistEntries']
-                  [0]
-                  ['resultlistEntry']):
+        try:
+            entries = (response.json()
+                       ['searchResponseModel']
+                       ['resultlist.resultlist']
+                       ['resultlistEntries']
+                       [0]
+                       ['resultlistEntry'])
+        except Exception:
+            logger.warning("Unable to parse results, "
+                           "search probably returned no matches.")
+            entries = []
+
+        for entry in entries:
             try:
                 if real_estate_type == 'HOUSE_BUY':
-                    result = parse_house_buy(j)
+                    result = parse_house_buy(entry)
                 elif real_estate_type == 'HOUSE_RENT':
-                    result = parse_house_rent(j)
+                    result = parse_house_rent(entry)
                 elif real_estate_type == 'APARTMENT_BUY':
-                    result = parse_apartment_buy(j)
+                    result = parse_apartment_buy(entry)
                 elif real_estate_type == 'APARTMENT_RENT':
-                    result = parse_apartment_rent(j)
+                    result = parse_apartment_rent(entry)
                 results.append(result)
             except Exception:
-                logger.warning(f'Unable to parse {j}, skipping.')
+                logger.warning(f'Unable to parse {entry}, skipping.')
     return results
 
 
