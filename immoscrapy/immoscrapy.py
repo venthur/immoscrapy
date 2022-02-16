@@ -72,7 +72,8 @@ class APARTMENT_RENT(RealEstate):
     garden: bool
 
 
-def query(country, region=None, city=None, real_estate_type='APARTMENT_RENT'):
+def query(country, region=None, city=None, real_estate_type='APARTMENT_RENT',
+          **kwargs):
     session = requests.Session()
 
     # add country
@@ -92,6 +93,11 @@ def query(country, region=None, city=None, real_estate_type='APARTMENT_RENT'):
                          f'use one of {REAL_ESTATE_TYPES.keys()}!')
     # add sorting
     url += '?sorting=2'
+
+    # process additional arguments
+    for key, value in kwargs.items():
+        if key == 'price':
+            url += f'&{key}={value}'
 
     logger.info(f'Using URL: {url}')
 
@@ -258,10 +264,23 @@ def parse_apartment_rent(j):
 
 def main():
     parser = argparse.ArgumentParser(
-            description='Scrape Immobilienscout24 offers.'
+        description='Scrape Immobilienscout24 offers.'
     )
-    _ = parser.parse_args()
-    results = query('de', 'berlin', 'berlin', 'HOUSE_BUY')
+    parser.add_argument(
+        'real_estate_type',
+        choices=[
+            'appartment-rent',
+            'appartment-buy',
+            'house-rent',
+            'house-buy'
+        ]
+    )
+    args = parser.parse_args()
     from pprint import pprint as print
+    print(args)
+    args.real_estate_type = args.real_estate_type.upper()
+    args.real_estate_type = args.real_estate_type.replace('-', '_')
+    results = query('de', 'berlin', 'berlin',
+                    args.real_estate_type, price='100000-800000')
     for r in results:
         print(r)
