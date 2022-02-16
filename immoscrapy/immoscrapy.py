@@ -125,7 +125,7 @@ def query(country, region=None, city=None, real_estate_type='APARTMENT_RENT'):
                     result = parse_apartment_rent(j)
                 results.append(result)
             except Exception:
-                logger.warning('Unable to parse {j}, skipping.')
+                logger.warning(f'Unable to parse {j}, skipping.')
     return results
 
 
