@@ -1,6 +1,8 @@
 import argparse
 import logging
 
+import pandas
+
 from immoscrapy.immoscrapy import query
 
 logger = logging.getLogger(__name__)
@@ -87,8 +89,7 @@ def rent_apartment(args):
         numberofrooms=args.numberofrooms,
         constructionyear=args.constructionyear,
     )
-    for result in results:
-        print(result)
+    pretty_print(results)
 
 
 def buy_apartment(args):
@@ -100,8 +101,7 @@ def buy_apartment(args):
         numberofrooms=args.numberofrooms,
         constructionyear=args.constructionyear,
     )
-    for result in results:
-        print(result)
+    pretty_print(results)
 
 
 def rent_house(args):
@@ -113,8 +113,7 @@ def rent_house(args):
         numberofrooms=args.numberofrooms,
         constructionyear=args.constructionyear,
     )
-    for result in results:
-        print(result)
+    pretty_print(results)
 
 
 def buy_house(args):
@@ -126,5 +125,26 @@ def buy_house(args):
         numberofrooms=args.numberofrooms,
         constructionyear=args.constructionyear,
     )
+    pretty_print(results)
+
+
+def pretty_print(results):
+
     for result in results:
-        print(result)
+        result.creation = result.creation.date()
+
+    df = pandas.DataFrame(results)
+    df.drop('id', axis=1, inplace=True)
+    df.drop('city', axis=1, inplace=True)
+    df.drop('postcode', axis=1, inplace=True)
+    df.drop('private_offer', axis=1, inplace=True)
+    df.drop('address', axis=1, inplace=True)
+    df.drop('floor_plan', axis=1, inplace=True)
+    df.drop('currency', axis=1, inplace=True)
+
+    df.rename(columns={
+        'guest_toilet': 'g toilet',
+        'number_of_rooms': 'rooms',
+        'living_space': 'space',
+    }, inplace=True)
+    print(df)
