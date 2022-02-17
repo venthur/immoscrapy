@@ -94,6 +94,7 @@ def query(country, region=None, city=None, real_estate_type='APARTMENT_RENT',
     url += '?sorting=2'
 
     # process additional arguments
+    # https://api.immobilienscout24.de/api-docs/search/realestate-specific-parameters/
     for key, value in kwargs.items():
         if (key in
                 ('price', 'livingspace', 'constructionyear', 'numberofrooms')
