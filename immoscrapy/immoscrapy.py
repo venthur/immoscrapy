@@ -1,4 +1,3 @@
-import argparse
 from dataclasses import dataclass
 import logging
 from datetime import datetime
@@ -96,7 +95,9 @@ def query(country, region=None, city=None, real_estate_type='APARTMENT_RENT',
 
     # process additional arguments
     for key, value in kwargs.items():
-        if key == 'price':
+        if (key in
+                ('price', 'livingspace', 'constructionyear', 'numberofrooms')
+                and (value is not None)):
             url += f'&{key}={value}'
 
     logger.info(f'Using URL: {url}')
@@ -260,27 +261,3 @@ def parse_apartment_rent(j):
                 floor_plan=realestate['floorplan'],
     )
     return result
-
-
-def main():
-    parser = argparse.ArgumentParser(
-        description='Scrape Immobilienscout24 offers.'
-    )
-    parser.add_argument(
-        'real_estate_type',
-        choices=[
-            'appartment-rent',
-            'appartment-buy',
-            'house-rent',
-            'house-buy'
-        ]
-    )
-    args = parser.parse_args()
-    from pprint import pprint as print
-    print(args)
-    args.real_estate_type = args.real_estate_type.upper()
-    args.real_estate_type = args.real_estate_type.replace('-', '_')
-    results = query('de', 'berlin', 'berlin',
-                    args.real_estate_type, price='100000-800000')
-    for r in results:
-        print(r)

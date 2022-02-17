@@ -30,7 +30,7 @@ setup(
     packages=['immoscrapy'],
     entry_points={
         'console_scripts': [
-            'immoscrapy = immoscrapy.immoscrapy:main'
+            'immoscrapy = immoscrapy.cli:main'
         ]
     },
     license='MIT',
