@@ -13,12 +13,33 @@ logging.basicConfig(
 
 
 def main():
-    args = parse_args()
-    print(args)
+    """Main entry point of the CLI.
+
+    This method parses the CLI arguments and executes the respective commands.
+
+    Parameters
+    ----------
+    args : list[str], optional
+        optional parameters, used for testing
+
+    """
+    args = parse_args(args)
     args.func(args)
 
 
 def parse_args():
+    """Parse command line arguments.
+
+    Parametes
+    ---------
+    args : list[str]
+        optional parameters, used for testing
+
+    Returns
+    -------
+    argparse.Namespace
+
+    """
     parser = argparse.ArgumentParser(
         description="Query Immobilienscout24 offers")
     commands = parser.add_subparsers(dest='command')
@@ -81,6 +102,13 @@ def parse_args():
 
 
 def rent_apartment(args):
+    """Query for apartments for rent and pretty print the results.
+
+    Parameters
+    ----------
+    args : argparse.Namespace
+
+    """
     results = query(
         args.country, args.region, args.city,
         'APARTMENT_RENT',
@@ -93,6 +121,13 @@ def rent_apartment(args):
 
 
 def buy_apartment(args):
+    """Query for apartments to buy and pretty print the results.
+
+    Parameters
+    ----------
+    args : argparse.Namespace
+
+    """
     results = query(
         args.country, args.region, args.city,
         'APARTMENT_BUY',
@@ -105,6 +140,13 @@ def buy_apartment(args):
 
 
 def rent_house(args):
+    """Query for houses for rent and pretty print the results.
+
+    Parameters
+    ----------
+    args : argparse.Namespace
+
+    """
     results = query(
         args.country, args.region, args.city,
         'HOUSE_RENT',
@@ -117,6 +159,13 @@ def rent_house(args):
 
 
 def buy_house(args):
+    """Query for houses to buy and pretty print the results.
+
+    Parameters
+    ----------
+    args : argparse.Namespace
+
+    """
     results = query(
         args.country, args.region, args.city,
         'HOUSE_BUY',
@@ -129,7 +178,13 @@ def buy_house(args):
 
 
 def pretty_print(results):
+    """Pretty print the results.
 
+    Parameters
+    ----------
+    results : list
+
+    """
     for result in results:
         result.creation = result.creation.date()
 
