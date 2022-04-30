@@ -3,7 +3,10 @@
 Scrape [Immobilienscout24][] data using Python. You can use it as a Python
 library or a standalone CLI application.
 
+Online [documentation][] is available on https://readthedocs.org.
+
 [Immobilienscout24]: https://www.immobilienscout24.de/
+[documentation]: https://immoscrapy.readthedocs.io/en/latest/
 
 
 ## Quickstart
