@@ -20,3 +20,9 @@ def test_query_berlin(real_estate_type, return_type):
 def test_query_raises_value_error():
     with pytest.raises(ValueError):
         immoscrapy.query('de', 'berlin', 'berlin', 'foo')
+
+
+def test_regression_gh_8():
+    """Apparently this query raises an 401."""
+    # I cannot reproduce it on my machine though
+    immoscrapy.query('de', 'chemnitz', 'chemnitz', 'HOUSE_BUY', price=900000)
