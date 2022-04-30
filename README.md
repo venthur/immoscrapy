@@ -5,6 +5,8 @@ library or a standalone CLI application.
 
 Online [documentation][] is available on https://readthedocs.org.
 
+Immoscrapy is tested on Linux, Mac and Windows and all Python versions >= 3.7.
+
 [Immobilienscout24]: https://www.immobilienscout24.de/
 [documentation]: https://immoscrapy.readthedocs.io/en/latest/
 
