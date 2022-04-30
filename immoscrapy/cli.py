@@ -12,7 +12,7 @@ logging.basicConfig(
 )
 
 
-def main():
+def main(args=None):
     """Main entry point of the CLI.
 
     This method parses the CLI arguments and executes the respective commands.
@@ -27,7 +27,7 @@ def main():
     args.func(args)
 
 
-def parse_args():
+def parse_args(args=None):
     """Parse command line arguments.
 
     Parametes
@@ -98,7 +98,7 @@ def parse_args():
     )
     house_buy_parser.set_defaults(func=buy_house)
 
-    return parser.parse_args()
+    return parser.parse_args(args)
 
 
 def rent_apartment(args):
