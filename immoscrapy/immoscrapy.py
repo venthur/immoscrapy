@@ -73,6 +73,33 @@ class APARTMENT_RENT(RealEstate):
 
 def query(country, region=None, city=None, real_estate_type='APARTMENT_RENT',
           **kwargs):
+    """The main query function.
+
+    This method allows to query immobilienscout according to your criteria.
+
+    Parameters
+    ----------
+    country : str
+        Country code, e.g. `de`
+    region : str, optional
+        Region name, e.g. 'berlin'
+    city : str, optional
+        City name, e.g. 'berlin'
+    real_estate_type : {'APARTMENT_RENT', 'APARTMENT_BUY', 'HOUSE_RENT',
+                        'HOUSE_BUY'}
+        Type of real estate, e.g. renting- vs buying, appartment vs house
+    **kwargs : dict, optional
+        currently supports:
+            * price
+            * livingspace
+            * constructionyear
+            * numberofrooms
+
+    Returns
+    -------
+    list
+
+    """
     session = requests.Session()
 
     # add country
