@@ -19,3 +19,8 @@ def test_main(real_estate_type):
         '--city=berlin',
         '--price=-1',
     ])
+
+
+def test_pretty_print_with_empty_argument():
+    """Regression test, used to raise an exception."""
+    cli.pretty_print([])

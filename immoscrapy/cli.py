@@ -185,6 +185,9 @@ def pretty_print(results):
     results : list
 
     """
+    if not results:
+        print('No results.')
+        return
     for result in results:
         result.creation = result.creation.date()
 
